@@ -1,5 +1,6 @@
 const btnNum = Array.from(document.querySelectorAll(".btn-num"));
 const btnOperators = Array.from(document.querySelectorAll(".btn-operator"));
+const btnEqual = document.querySelector(".btn-equal");
 const operationDisplay = document.querySelector(".display-operation");
 const resultDisplay = document.querySelector(".display-result");
 let operator;
@@ -31,18 +32,20 @@ btnOperators.forEach(operator => {
     operator.addEventListener('click', callOperator)
 })
 
+btnEqual.addEventListener('click', () => {
+    let [num1,symbol,num2] = parseDisplay();
+    if (num1 || symbol || num2) {
+        resultDisplay.textContent = operate(operator,num1,num2);
+    } else return;
+} );
+
 function putNumber(event) {
     operationDisplay.textContent += event.target.getAttribute("data-number");
 }
 
 function callOperator(event) {
-    // Parse operationDisplay string into array and store in variables
-    let [num1,symbol,num2] = operationDisplay.textContent.split(" "); 
+    let [num1,symbol,num2] = parseDisplay();
 
-    num1 = Number(num1); 
-    num2 = Number(num2);
-    console.log([num1,symbol,num2]);
-    console.log(operator);
     if (!num1) return;
     if (num1 && !symbol && !num2) { // Case 1: click operator button without any number input display
         symbol = event.target.textContent;
@@ -61,7 +64,17 @@ function callOperator(event) {
     }
 }
 
+function parseDisplay() {
+    // Parse operationDisplay string into array and store in variables
+    let [num1,symbol,num2] = operationDisplay.textContent.split(" "); 
 
+    num1 = Number(num1); 
+    num2 = Number(num2);
+    console.log([num1,symbol,num2]);
+    console.log(operator);
+
+    return [num1,symbol,num2];
+}
 
 
 
