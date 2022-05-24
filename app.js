@@ -11,6 +11,8 @@ const subtract = (num1, num2) => num1 - num2;
 const multiply = (num1, num2) => num1 * num2;
 const divide = (num1, num2) => num1 / num2;
 const operate = (operator, num1, num2) => {
+    num1 = Number(num1); // Ensure number type input
+    num2 = Number(num2); // Ensure number type input
     if (operator === "add") {
         return add(num1, num2);
     } else if (operator === "subtract") {
@@ -34,28 +36,35 @@ btnOperators.forEach(operator => {
 
 btnEqual.addEventListener('click', () => {
     let [num1,symbol,num2] = parseDisplay();
-    if (num1 || symbol || num2) {
+    if (num1 && symbol && num2) {
+        console.log([num1,symbol,num2]);
+        operationDisplay.textContent = `${num1} ${symbol} ${num2} =`
         resultDisplay.textContent = operate(operator,num1,num2);
     } else return;
 } );
 
 function putNumber(event) {
+    // let [num1,symbol,num2] = parseDisplay();
+    // console.log(typeof num2);
+    // First input number will not start with zero
+    // if (!num1 && (event.target.getAttribute("data-number") === '0')) return;
+    // if (num1 && symbol && num2 === '0' && event.target.getAttribute("data-number") === '0') return;
     operationDisplay.textContent += event.target.getAttribute("data-number");
 }
 
 function callOperator(event) {
     let [num1,symbol,num2] = parseDisplay();
 
-    if (!num1) return;
-    if (num1 && !symbol && !num2) { // Case 1: click operator button without any number input display
+    if (!num1) return; // Case 1: click operator button without any number input display
+    if (num1 && !symbol && !num2) { // Case 2: click operator button with one number input display
         symbol = event.target.textContent;
         operator = event.target.getAttribute("data-operator");
         operationDisplay.textContent += ` ${symbol} `; 
-    } else if (num1 && symbol && !num2) { // Case 2: click operator button with one number input but without second number input display
+    } else if (num1 && symbol && !num2) { // Case 3: click operator button with one number input but without second number input display
         symbol = event.target.textContent;
         operator = event.target.getAttribute("data-operator");
-        operationDisplay.textContent = `${num1} ${symbol} `; 
-    } else if (num1 && symbol && num2) { // Case 3: click operator button with two number inputs display
+        operationDisplay.textContent = `${num1} ${symbol} `; // Change operator symbol
+    } else if (num1 && symbol && num2) { // Case 4: click operator button with two number inputs display
         num1 = operate(operator,num1,num2);
         resultDisplay.textContent = num1;
         symbol = event.target.textContent;
@@ -68,8 +77,6 @@ function parseDisplay() {
     // Parse operationDisplay string into array and store in variables
     let [num1,symbol,num2] = operationDisplay.textContent.split(" "); 
 
-    num1 = Number(num1); 
-    num2 = Number(num2);
     console.log([num1,symbol,num2]);
     console.log(operator);
 
