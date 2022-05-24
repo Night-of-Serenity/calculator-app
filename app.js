@@ -14,14 +14,16 @@ const divide = (num1, num2) => num1 / num2;
 const operate = (operator, num1, num2) => {
     num1 = Number(num1); // Ensure number type input
     num2 = Number(num2); // Ensure number type input
+
+    // Call operator function, if return value is float number, round it to 2 decimals
     if (operator === "add") {
-        return add(num1, num2).toFixed(2);
+        return Number.isInteger(add(num1, num2)) ? add(num1, num2) : add(num1, num2).toFixed(2);
     } else if (operator === "subtract") {
-        return subtract(num1, num2).toFixed(2);
+        return Number.isInteger(subtract(num1, num2)) ? subtract(num1, num2) : subtract(num1, num2).toFixed(2);
     } else if (operator === "multiply") {
-        return multiply(num1, num2).toFixed(2);
+        return Number.isInteger(multiply(num1, num2)) ? multiply(num1, num2) : multiply(num1, num2).toFixed(2);
     } else if (operator === "divide") {
-        return divide(num1, num2).toFixed(2);
+        return Number.isInteger(divide(num1, num2)) ? divide(num1, num2) : divide(num1, num2).toFixed(2);
     } else {
         return "Error";
     }
