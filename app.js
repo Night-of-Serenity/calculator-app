@@ -15,13 +15,13 @@ const operate = (operator, num1, num2) => {
     num1 = Number(num1); // Ensure number type input
     num2 = Number(num2); // Ensure number type input
     if (operator === "add") {
-        return add(num1, num2);
+        return add(num1, num2).toFixed(2);
     } else if (operator === "subtract") {
-        return subtract(num1, num2);
+        return subtract(num1, num2).toFixed(2);
     } else if (operator === "multiply") {
-        return multiply(num1, num2);
+        return multiply(num1, num2).toFixed(2);
     } else if (operator === "divide") {
-        return divide(num1, num2);
+        return divide(num1, num2).toFixed(2);
     } else {
         return "Error";
     }
