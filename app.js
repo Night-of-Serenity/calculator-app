@@ -3,6 +3,7 @@ const btnOperators = Array.from(document.querySelectorAll(".btn-operator"));
 const btnEqual = document.querySelector(".btn-equal");
 const operationDisplay = document.querySelector(".display-operation");
 const resultDisplay = document.querySelector(".display-result");
+const btnClear = document.querySelector(".btn-clear");
 let operator;
 
 // Basics operators functions
@@ -42,6 +43,12 @@ btnEqual.addEventListener('click', () => {
         resultDisplay.textContent = operate(operator,num1,num2);
     } else return;
 } );
+
+btnClear.addEventListener('click', () => {
+    operationDisplay.textContent = ''; // Reset operation display
+    resultDisplay.textContent = '0';  // Reset result display
+    operator = ''; // Reset operator argument;
+})
 
 function putNumber(event) {
     // let [num1,symbol,num2] = parseDisplay();
