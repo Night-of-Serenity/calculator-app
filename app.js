@@ -24,11 +24,12 @@ const operate = (operator, num1, num2) => {
         return Number.isInteger(subtract(num1, num2)) ? subtract(num1, num2) : subtract(num1, num2).toFixed(2);
     } else if (operator === "multiply") {
         return Number.isInteger(multiply(num1, num2)) ? multiply(num1, num2) : multiply(num1, num2).toFixed(2);
+    } else if (operator === "divide" && num2 === 0){
+        operationDisplay.textContent = "";
+        return "Error!!!";
     } else if (operator === "divide") {
         return Number.isInteger(divide(num1, num2)) ? divide(num1, num2) : divide(num1, num2).toFixed(2);
-    } else {
-        return "Error";
-    }
+    } 
 };
 
 btnNum.forEach(num => {
@@ -102,7 +103,11 @@ function callOperator(event) {
         resultDisplay.textContent = num1;
         symbol = event.target.textContent;
         operator = event.target.getAttribute("data-operator");
-        operationDisplay.textContent = `${num1} ${symbol} `;
+        if ((num1 === "Error!!!")) {
+            return;
+        } else {
+            operationDisplay.textContent = `${num1} ${symbol} `;
+        }
     }
 }
 
