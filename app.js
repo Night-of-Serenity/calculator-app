@@ -5,6 +5,7 @@ const operationDisplay = document.querySelector(".display-operation");
 const resultDisplay = document.querySelector(".display-result");
 const btnClear = document.querySelector(".btn-clear");
 const btnDot = document.querySelector(".btn-dot");
+const btnDel = document.querySelector(".btn-delete");
 let operator;
 
 // Basics operators functions
@@ -59,6 +60,14 @@ btnDot.addEventListener('click', (event) => {
     }
 })
 
+btnDel.addEventListener('click', () => {
+    let [num1, symbol, num2] = parseDisplay();
+    if ((num1 && !symbol && !num2) || (num1 && symbol && num2)) { // Delete only number input on display
+        operationDisplay.textContent = operationDisplay.textContent.substring(0, operationDisplay.textContent.length - 1);
+    } else 
+        return;
+})
+
 function putNumber(event) {
     // let [num1,symbol,num2] = parseDisplay();
     // console.log(typeof num2);
@@ -92,7 +101,7 @@ function callOperator(event) {
 function parseDisplay() {
     // Parse operationDisplay string into array and store in variables
     let [num1,symbol,num2] = operationDisplay.textContent.split(" "); 
-
+    console.log(operationDisplay.textContent);
     console.log([num1,symbol,num2]);
     console.log(operator);
 
