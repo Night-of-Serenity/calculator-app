@@ -4,6 +4,7 @@ const btnEqual = document.querySelector(".btn-equal");
 const operationDisplay = document.querySelector(".display-operation");
 const resultDisplay = document.querySelector(".display-result");
 const btnClear = document.querySelector(".btn-clear");
+const btnDot = document.querySelector(".btn-dot");
 let operator;
 
 // Basics operators functions
@@ -50,6 +51,12 @@ btnClear.addEventListener('click', () => {
     operationDisplay.textContent = ''; // Reset operation display
     resultDisplay.textContent = '0';  // Reset result display
     operator = ''; // Reset operator argument;
+})
+
+btnDot.addEventListener('click', (event) => {
+    if (!operationDisplay.textContent.includes(".")) {
+        operationDisplay.textContent += event.target.textContent;
+    }
 })
 
 function putNumber(event) {
