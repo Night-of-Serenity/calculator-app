@@ -56,13 +56,14 @@ btnClear.addEventListener('click', () => {
 
 btnDot.addEventListener('click', (event) => {
     let [num1, symbol, num2] = parseDisplay();
+    if (operationDisplay.textContent.includes("=")) return; // Not allow to put dot after equal button operated
     if (num2) {
-        if (!num2.includes(".")) {
+        if (!num2.includes(".")) {  // Check if "." already exist for second number input
             operationDisplay.textContent += event.target.textContent;
         }
     }
     else {
-        if (!num1.includes(".")) {
+        if (!num1.includes(".")) { // Check if "." already exist for first number input
             operationDisplay.textContent += event.target.textContent;
         }
     }  
@@ -77,12 +78,11 @@ btnDel.addEventListener('click', () => {
 })
 
 function putNumber(event) {
-    // let [num1,symbol,num2] = parseDisplay();
-    // console.log(typeof num2);
-    // First input number will not start with zero
-    // if (!num1 && (event.target.getAttribute("data-number") === '0')) return;
-    // if (num1 && symbol && num2 === '0' && event.target.getAttribute("data-number") === '0') return;
-    operationDisplay.textContent += event.target.getAttribute("data-number");
+    let [num1,symbol,num2] = parseDisplay();
+    if (operationDisplay.textContent.includes("=")) { // Case for put new number after equal button operated
+        operationDisplay.textContent = event.target.getAttribute("data-number");
+    } else
+        operationDisplay.textContent += event.target.getAttribute("data-number");
 }
 
 function callOperator(event) {
