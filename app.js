@@ -55,9 +55,17 @@ btnClear.addEventListener('click', () => {
 })
 
 btnDot.addEventListener('click', (event) => {
-    if (!operationDisplay.textContent.includes(".")) {
-        operationDisplay.textContent += event.target.textContent;
+    let [num1, symbol, num2] = parseDisplay();
+    if (num2) {
+        if (!num2.includes(".")) {
+            operationDisplay.textContent += event.target.textContent;
+        }
     }
+    else {
+        if (!num1.includes(".")) {
+            operationDisplay.textContent += event.target.textContent;
+        }
+    }  
 })
 
 btnDel.addEventListener('click', () => {
@@ -103,7 +111,7 @@ function parseDisplay() {
     let [num1,symbol,num2] = operationDisplay.textContent.split(" "); 
     console.log(operationDisplay.textContent);
     console.log([num1,symbol,num2]);
-    console.log(operator);
+    // console.log(operator);
 
     return [num1,symbol,num2];
 }
