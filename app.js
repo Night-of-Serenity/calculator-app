@@ -64,7 +64,7 @@ btnDot.addEventListener('click', (event) => {
         }
     }
     else {
-        if (!num1.includes(".")) { // Check if "." already exist for first number input
+        if (!num1.includes(".") || (num1.includes(".") && symbol)) { // Check if "." already exist for first number input
             operationDisplay.textContent += event.target.textContent;
         }
     }  
@@ -76,6 +76,14 @@ btnDel.addEventListener('click', () => {
         operationDisplay.textContent = operationDisplay.textContent.substring(0, operationDisplay.textContent.length - 1);
     } else 
         return;
+})
+
+window.addEventListener('keydown', event => {
+    let key = event.key;
+    console.log(event);
+    // if (key === "1") {
+
+    // }
 })
 
 function putNumber(event) {
@@ -114,9 +122,9 @@ function callOperator(event) {
 function parseDisplay() {
     // Parse operationDisplay string into array and store in variables
     let [num1,symbol,num2] = operationDisplay.textContent.split(" "); 
-    console.log(operationDisplay.textContent);
+    // console.log(operationDisplay.textContent);
     console.log([num1,symbol,num2]);
-    // console.log(operator);
+    console.log(operator);
 
     return [num1,symbol,num2];
 }
