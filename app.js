@@ -26,14 +26,14 @@ const operate = (operator, num1, num2) => {
         return Number.isInteger(multiply(num1, num2)) ? multiply(num1, num2) : multiply(num1, num2).toFixed(2);
     } else if (operator === "divide" && num2 === 0){
         operationDisplay.textContent = "";
-        return "Error!!!";
+        return "Error!";
     } else if (operator === "divide") {
         return Number.isInteger(divide(num1, num2)) ? divide(num1, num2) : divide(num1, num2).toFixed(2);
     } 
 };
 
 btnNum.forEach(num => {
-    num.addEventListener('click', putNumber);
+    num.addEventListener('click', event => putNumber(event.target.getAttribute("data-number")));
 })
 
 btnOperators.forEach(operator => {
@@ -80,18 +80,21 @@ btnDel.addEventListener('click', () => {
 
 window.addEventListener('keydown', event => {
     let key = event.key;
-    console.log(event);
-    // if (key === "1") {
-
-    // }
+    console.log(key);
+    // Enter number from keyboard 
+    for (let i = 0; i < 10; i++) {
+        if (key === i.toString()) {
+            putNumber(key);    
+        }
+    }
 })
 
-function putNumber(event) {
+function putNumber(number) {
     let [num1,symbol,num2] = parseDisplay();
     if (operationDisplay.textContent.includes("=")) { // Case for put new number after equal button operated
-        operationDisplay.textContent = event.target.getAttribute("data-number");
+        operationDisplay.textContent = number;
     } else
-        operationDisplay.textContent += event.target.getAttribute("data-number");
+        operationDisplay.textContent += number;
 }
 
 function callOperator(event) {
@@ -111,7 +114,7 @@ function callOperator(event) {
         resultDisplay.textContent = num1;
         symbol = event.target.textContent;
         operator = event.target.getAttribute("data-operator");
-        if ((num1 === "Error!!!")) {
+        if ((num1 === "Error!")) {
             return;
         } else {
             operationDisplay.textContent = `${num1} ${symbol} `;
