@@ -40,14 +40,7 @@ btnOperators.forEach(operator => {
     operator.addEventListener('click', callOperator)
 })
 
-btnEqual.addEventListener('click', () => {
-    let [num1,symbol,num2] = parseDisplay();
-    if (num1 && symbol && num2) {
-        console.log([num1,symbol,num2]);
-        operationDisplay.textContent = `${num1} ${symbol} ${num2} =`
-        resultDisplay.textContent = operate(operator,num1,num2);
-    } else return;
-} );
+btnEqual.addEventListener('click', getCalculate);
 
 btnClear.addEventListener('click', () => {
     operationDisplay.textContent = ''; // Reset operation display
@@ -57,7 +50,7 @@ btnClear.addEventListener('click', () => {
 
 btnDot.addEventListener('click', (event) => {
     let [num1, symbol, num2] = parseDisplay();
-    if (operationDisplay.textContent.includes("=")) return; // Not allow to put dot after equal button operated
+    if (operationDisplay.textContent.includes("=")) return; // Not allow to put dot after equal operated
     if (num2) {
         if (!num2.includes(".")) {  // Check if "." already exist for second number input
             operationDisplay.textContent += event.target.textContent;
@@ -87,11 +80,16 @@ window.addEventListener('keydown', event => {
             putNumber(key);    
         }
     }
+
+    // Press "Enter" or "="
+    if (key === "Enter" || key === "=") {
+        getCalculate();
+    }
 })
 
 function putNumber(number) {
     let [num1,symbol,num2] = parseDisplay();
-    if (operationDisplay.textContent.includes("=")) { // Case for put new number after equal button operated
+    if (operationDisplay.textContent.includes("=")) { // Case for put new number after equal operated
         operationDisplay.textContent = number;
     } else
         operationDisplay.textContent += number;
@@ -132,5 +130,13 @@ function parseDisplay() {
     return [num1,symbol,num2];
 }
 
+function getCalculate() {
+    let [num1,symbol,num2] = parseDisplay();
+    if (num1 && symbol && num2) {
+        console.log([num1,symbol,num2]);
+        operationDisplay.textContent = `${num1} ${symbol} ${num2} =`
+        resultDisplay.textContent = operate(operator,num1,num2);
+    } else return;
+}
 
 
