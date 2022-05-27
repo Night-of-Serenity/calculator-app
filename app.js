@@ -46,13 +46,7 @@ btnClear.addEventListener('click', clearCalculator);
 
 btnDot.addEventListener('click', getDot);
 
-btnDel.addEventListener('click', () => {
-    let [num1, symbol, num2] = parseDisplay();
-    if ((num1 && !symbol && !num2) || (num1 && symbol && num2)) { // Delete only number input on display
-        operationDisplay.textContent = operationDisplay.textContent.substring(0, operationDisplay.textContent.length - 1);
-    } else 
-        return;
-})
+btnDel.addEventListener('click', callDelete)
 
 window.addEventListener('keydown', getKey);
 
@@ -128,8 +122,15 @@ function getDot() {
     }  
 }
 
-function getKey(event) {
+function callDelete() {
+    let [num1, symbol, num2] = parseDisplay();
+    if ((num1 && !symbol && !num2) || (num1 && symbol && num2)) { // Delete only number input on display
+        operationDisplay.textContent = operationDisplay.textContent.substring(0, operationDisplay.textContent.length - 1);
+    } else 
+        return;
+}
 
+function getKey(event) {
     let key = event.key;
     console.log(key);
     // Enter number from keyboard 
@@ -168,5 +169,10 @@ function getKey(event) {
     // Press "."
     if (key === ".") {
         getDot();
+    }
+
+    // Press "Delete" or "Backspace"
+    if (key === "Delete" || key === "Backspace") {
+        callDelete();
     }
 }
