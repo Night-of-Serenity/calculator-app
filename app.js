@@ -18,16 +18,16 @@ const operate = (operator, num1, num2) => {
     num2 = Number(num2); // Ensure number type input
 
     // Call operator function, if return value is float number, round it to 2 decimals
-    if (operator === "add") {
+    if (operator === "+") {
         return Number.isInteger(add(num1, num2)) ? add(num1, num2) : add(num1, num2).toFixed(2);
-    } else if (operator === "subtract") {
+    } else if (operator === "-") {
         return Number.isInteger(subtract(num1, num2)) ? subtract(num1, num2) : subtract(num1, num2).toFixed(2);
-    } else if (operator === "multiply") {
+    } else if (operator === "*") {
         return Number.isInteger(multiply(num1, num2)) ? multiply(num1, num2) : multiply(num1, num2).toFixed(2);
-    } else if (operator === "divide" && num2 === 0){
+    } else if (operator === "/" && num2 === 0){
         operationDisplay.textContent = "";
         return "Error!";
-    } else if (operator === "divide") {
+    } else if (operator === "/") {
         return Number.isInteger(divide(num1, num2)) ? divide(num1, num2) : divide(num1, num2).toFixed(2);
     } 
 };
@@ -37,7 +37,7 @@ btnNum.forEach(num => {
 })
 
 btnOperators.forEach(operator => {
-    operator.addEventListener('click', callOperator)
+    operator.addEventListener('click', event => callOperator(event.target.getAttribute("data-operator"), event.target.textContent));
 })
 
 btnEqual.addEventListener('click', getCalculate);
@@ -71,47 +71,32 @@ btnDel.addEventListener('click', () => {
         return;
 })
 
-window.addEventListener('keydown', event => {
-    let key = event.key;
-    console.log(key);
-    // Enter number from keyboard 
-    for (let i = 0; i < 10; i++) {
-        if (key === i.toString()) {
-            putNumber(key);    
-        }
-    }
-
-    // Press "Enter" or "="
-    if (key === "Enter" || key === "=") {
-        getCalculate();
-    }
-})
+window.addEventListener('keydown', getKey);
 
 function putNumber(number) {
-    let [num1,symbol,num2] = parseDisplay();
     if (operationDisplay.textContent.includes("=")) { // Case for put new number after equal operated
         operationDisplay.textContent = number;
     } else
         operationDisplay.textContent += number;
 }
 
-function callOperator(event) {
+function callOperator(operators, symbols) {
     let [num1,symbol,num2] = parseDisplay();
 
     if (!num1) return; // Case 1: click operator button without any number input display
     if (num1 && !symbol && !num2) { // Case 2: click operator button with one number input display
-        symbol = event.target.textContent;
-        operator = event.target.getAttribute("data-operator");
+        symbol = symbols;
+        operator = operators;
         operationDisplay.textContent += ` ${symbol} `; 
     } else if (num1 && symbol && !num2) { // Case 3: click operator button with one number input but without second number input display
-        symbol = event.target.textContent;
-        operator = event.target.getAttribute("data-operator");
+        symbol = symbols;
+        operator = operators;
         operationDisplay.textContent = `${num1} ${symbol} `; // Change operator symbol
     } else if (num1 && symbol && num2) { // Case 4: click operator button with two number inputs display
         num1 = operate(operator,num1,num2);
         resultDisplay.textContent = num1;
-        symbol = event.target.textContent;
-        operator = event.target.getAttribute("data-operator");
+        symbol = symbols;
+        operator = operators;
         if ((num1 === "Error!")) {
             return;
         } else {
@@ -139,4 +124,35 @@ function getCalculate() {
     } else return;
 }
 
+function getKey(event) {
 
+    let key = event.key;
+    console.log(key);
+    // Enter number from keyboard 
+    for (let i = 0; i < 10; i++) {
+        if (key === i.toString()) {
+            putNumber(key);    
+        }
+    }
+
+    // Press "Enter" or "="
+    if (key === "Enter" || key === "=") {
+        getCalculate();
+    }
+
+    // Press <operator>
+    switch (key) {
+        case "+":
+            callOperator(key, key);
+            break;
+        case "-":
+            callOperator(key, key);
+            break;
+        case "*":
+            callOperator(key, "x");
+            break;
+        case "/":
+            callOperator(key, "÷");
+            break;
+    }
+}
