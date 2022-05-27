@@ -42,11 +42,7 @@ btnOperators.forEach(operator => {
 
 btnEqual.addEventListener('click', getCalculate);
 
-btnClear.addEventListener('click', () => {
-    operationDisplay.textContent = ''; // Reset operation display
-    resultDisplay.textContent = '0';  // Reset result display
-    operator = ''; // Reset operator argument;
-})
+btnClear.addEventListener('click', clearCalculator);
 
 btnDot.addEventListener('click', (event) => {
     let [num1, symbol, num2] = parseDisplay();
@@ -118,10 +114,16 @@ function parseDisplay() {
 function getCalculate() {
     let [num1,symbol,num2] = parseDisplay();
     if (num1 && symbol && num2) {
-        console.log([num1,symbol,num2]);
+        // console.log([num1,symbol,num2]);
         operationDisplay.textContent = `${num1} ${symbol} ${num2} =`
         resultDisplay.textContent = operate(operator,num1,num2);
     } else return;
+}
+
+function clearCalculator() {
+    operationDisplay.textContent = ''; // Reset operation display
+    resultDisplay.textContent = '0';  // Reset result display
+    operator = ''; // Reset operator argument;
 }
 
 function getKey(event) {
@@ -154,5 +156,10 @@ function getKey(event) {
         case "/":
             callOperator(key, "÷");
             break;
+    }
+
+    // Press "Esc"
+    if (key === "Escape") {
+        clearCalculator();
     }
 }
