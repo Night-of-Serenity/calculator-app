@@ -6,7 +6,7 @@ const resultDisplay = document.querySelector(".display-result");
 const btnClear = document.querySelector(".btn-clear");
 const btnDot = document.querySelector(".btn-dot");
 const btnDel = document.querySelector(".btn-delete");
-let operator;
+let savedOperator;
 
 // Basics operators functions
 const add = (num1, num2) => num1 + num2;
@@ -33,78 +33,68 @@ const operate = (operator, num1, num2) => {
 };
 
 btnNum.forEach(num => {
-    num.addEventListener('click', event => putNumber(event.target.getAttribute("data-number")));
+    // Get number from number button's data-number custom attribute
+    num.addEventListener('click', event => putNumber(event.target.getAttribute("data-number"))); 
 })
 
 btnOperators.forEach(operator => {
+    // Get operator from operator button's data-operator custom attribute
     operator.addEventListener('click', event => callOperator(event.target.getAttribute("data-operator"), event.target.textContent));
 })
 
 btnEqual.addEventListener('click', getCalculate);
-
 btnClear.addEventListener('click', clearCalculator);
-
 btnDot.addEventListener('click', getDot);
-
 btnDel.addEventListener('click', callDelete)
-
 window.addEventListener('keydown', getKey);
 
 function putNumber(number) {
     if (operationDisplay.textContent.includes("=")) { // Case for put new number after equal operated
         operationDisplay.textContent = number;
-    } else
-        operationDisplay.textContent += number;
+    } else 
+        operationDisplay.textContent += number; 
 }
 
-function callOperator(operators, symbols) {
+function callOperator(operator, symbols) {
     let [num1,symbol,num2] = parseDisplay();
 
     if (!num1) return; // Case 1: click operator button without any number input display
     if (num1 && !symbol && !num2) { // Case 2: click operator button with one number input display
-        symbol = symbols;
-        operator = operators;
-        operationDisplay.textContent += ` ${symbol} `; 
+        savedOperator = operator;
+        operationDisplay.textContent += ` ${symbols} `; 
     } else if (num1 && symbol && !num2) { // Case 3: click operator button with one number input but without second number input display
-        symbol = symbols;
-        operator = operators;
-        operationDisplay.textContent = `${num1} ${symbol} `; // Change operator symbol
+        savedOperator = operator;
+        operationDisplay.textContent = `${num1} ${symbols} `; // Change operator symbol
     } else if (num1 && symbol && num2) { // Case 4: click operator button with two number inputs display
-        num1 = operate(operator,num1,num2);
+        num1 = operate(savedOperator,num1,num2);
         resultDisplay.textContent = num1;
-        symbol = symbols;
-        operator = operators;
+        savedOperator = operator;
+        // Show operation display in case num1 return no "Error!" 
         if ((num1 === "Error!")) {
             return;
         } else {
-            operationDisplay.textContent = `${num1} ${symbol} `;
+            operationDisplay.textContent = `${num1} ${symbols} `;
         }
     }
 }
 
 function parseDisplay() {
-    // Parse operationDisplay string into array and store in variables
-    let [num1,symbol,num2] = operationDisplay.textContent.split(" "); 
-    // console.log(operationDisplay.textContent);
-    console.log([num1,symbol,num2]);
-    console.log(operator);
-
-    return [num1,symbol,num2];
+    // Parse operationDisplay string into array
+    return operationDisplay.textContent.split(" "); 
 }
 
 function getCalculate() {
     let [num1,symbol,num2] = parseDisplay();
     if (num1 && symbol && num2) {
-        // console.log([num1,symbol,num2]);
         operationDisplay.textContent = `${num1} ${symbol} ${num2} =`
-        resultDisplay.textContent = operate(operator,num1,num2);
+        resultDisplay.textContent = operate(savedOperator,num1,num2);
     } else return;
 }
 
 function clearCalculator() {
     operationDisplay.textContent = ''; // Reset operation display
     resultDisplay.textContent = '0';  // Reset result display
-    operator = ''; // Reset operator argument;
+    savedOperator = ''; // Reset operator argument;
 }
 
 function getDot() {
@@ -132,7 +122,6 @@ function callDelete() {
 
 function getKey(event) {
     let key = event.key;
-    console.log(key);
     // Enter number from keyboard 
     for (let i = 0; i < 10; i++) {
         if (key === i.toString()) {
