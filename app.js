@@ -44,20 +44,7 @@ btnEqual.addEventListener('click', getCalculate);
 
 btnClear.addEventListener('click', clearCalculator);
 
-btnDot.addEventListener('click', (event) => {
-    let [num1, symbol, num2] = parseDisplay();
-    if (operationDisplay.textContent.includes("=")) return; // Not allow to put dot after equal operated
-    if (num2) {
-        if (!num2.includes(".")) {  // Check if "." already exist for second number input
-            operationDisplay.textContent += event.target.textContent;
-        }
-    }
-    else {
-        if (!num1.includes(".") || (num1.includes(".") && symbol)) { // Check if "." already exist for first number input
-            operationDisplay.textContent += event.target.textContent;
-        }
-    }  
-})
+btnDot.addEventListener('click', getDot);
 
 btnDel.addEventListener('click', () => {
     let [num1, symbol, num2] = parseDisplay();
@@ -126,6 +113,21 @@ function clearCalculator() {
     operator = ''; // Reset operator argument;
 }
 
+function getDot() {
+    let [num1, symbol, num2] = parseDisplay();
+    if (operationDisplay.textContent.includes("=")) return; // Not allow to put dot after equal operated
+    if (num2) {
+        if (!num2.includes(".")) {  // Check if "." already exist for second number input
+            operationDisplay.textContent += ".";
+        }
+    }
+    else {
+        if (!num1.includes(".") || (num1.includes(".") && symbol)) { // Check if "." already exist for first number input
+            operationDisplay.textContent += ".";
+        }
+    }  
+}
+
 function getKey(event) {
 
     let key = event.key;
@@ -161,5 +163,10 @@ function getKey(event) {
     // Press "Esc"
     if (key === "Escape") {
         clearCalculator();
+    }
+
+    // Press "."
+    if (key === ".") {
+        getDot();
     }
 }
