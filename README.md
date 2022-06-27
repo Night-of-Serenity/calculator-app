@@ -1,2 +1,2 @@
 # calculator-app
-[calculator](https://nightz-of-silence.github.io/calculator-app/)
+Calculator app project according to Odinproject [assignment](https://www.theodinproject.com/lessons/foundations-calculator) [calculator-online](https://nightz-of-silence.github.io/calculator-app/)
